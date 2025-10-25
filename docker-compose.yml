@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+
+  ai:
+    build:
+      context: ./ai
+      dockerfile: Dockerfile
+    volumes:
+      - ./data:/data
+    depends_on:
+      - backend
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:5173" # map host port 3000 to container 5173
+    depends_on:
+      - backend
+
